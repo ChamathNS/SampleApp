@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample App</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            flex-direction: column;
+            display: flex;
+        }
+        main {
+            flex-shrink: 0;
+        }
+        main.center-segment {
+            margin: auto;
+            display: flex;
+            align-items: center;
+        }
+        .element-padding {
+            margin: auto;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <main class="center-segment">
+        <div style="text-align: center;">
+            <h1>
+                Log In Page!
+            </h1>
+            <form method="post" action="LogIn">
+                <div class="element-padding">
+                    Username : <input type="text" name="username"/>
+                </div>
+                <div class="element-padding">
+                    Password : <input type="password" name="password">
+                </div>
+                <div class="element-padding">
+                    <input type="submit" value="log in" style="height: 30px; width: 60px">
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
