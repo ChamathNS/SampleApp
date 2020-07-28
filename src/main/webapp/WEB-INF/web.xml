@@ -16,6 +16,10 @@
         <servlet-name>SampleServlet</servlet-name>
         <url-pattern>/samlsso</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SampleServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>SSOAgentSampleFilter</filter-name>

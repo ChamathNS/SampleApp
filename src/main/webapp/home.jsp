@@ -5,8 +5,12 @@
   Time: 21:26
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.bean.LoggedInSessionBean" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.util.SSOAgentConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import ="java.util.*" %>
 <html>
 <head>
     <title>Home</title>
@@ -32,13 +36,52 @@
         }
     </style>
 </head>
+<%
+    String subjectId = null;
+    Map<String, String> saml2SSOAttributes = null;
+    if(request.getSession(false) != null &&
+            request.getSession(false).getAttribute(SSOAgentConstants.SESSION_BEAN_NAME) == null){
+        request.getSession().invalidate();
+%>
+<script type="text/javascript">
+    location.href = "index.html";
+</script>
+<%
+        return;
+    }
+    SSOAgentConfig ssoAgentConfig = (SSOAgentConfig)getServletContext().getAttribute(SSOAgentConstants.CONFIG_BEAN_NAME);
+    LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
+    LoggedInSessionBean.AccessTokenResponseBean accessTokenResponseBean = null;
+    
+    if(sessionBean != null){
+        if(sessionBean.getSAML2SSO() != null) {
+            subjectId = sessionBean.getSAML2SSO().getSubjectId();
+            saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();
+            accessTokenResponseBean = sessionBean.getSAML2SSO().getAccessTokenResponseBean();
+        } else {
+%>
+<script type="text/javascript">
+    location.href = "index.html";
+</script>
+<%
+        return;
+    }
+} else {
+%>
+<script type="text/javascript">
+    location.href = "index.html";
+</script>
+<%
+        return;
+    }
+%>
 <body>
 <main class="center-segment">
     <%
-    String userName = (String) request.getAttribute("username");
-    String password = (String) request.getAttribute("password");
-    out.println("<br>User name: " + userName + "<br>");
-        out.println("<br>Password: " + password + "<br>");
+//    String userName = (String) request.getAttribute("username");
+//    String password = (String) request.getAttribute("password");
+    out.println("<br>User name: " + request.getRemoteUser() + "<br>");
+        out.println("<br>Password: " + "<br>");
     %>
 </main>
 </body>
