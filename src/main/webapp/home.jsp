@@ -48,13 +48,11 @@
         return;
     }
     LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
-    LoggedInSessionBean.AccessTokenResponseBean accessTokenResponseBean = null;
     
     if(sessionBean != null){
         if(sessionBean.getSAML2SSO() != null) {
             subjectId = sessionBean.getSAML2SSO().getSubjectId();
             saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();
-            accessTokenResponseBean = sessionBean.getSAML2SSO().getAccessTokenResponseBean();
         } else {
 %>
 <script type="text/javascript">
@@ -80,10 +78,31 @@
         </div>
         <div class="element-padding">
             <%
-                String userName = (String) request.getAttribute("nameID");
-//    String password = (String) request.getAttribute("password");
-//                out.println("<br>User name: " + userName + "<br>");
+                if(subjectId != null){
             %>
+            <p> You are logged in as <%=subjectId%></p>
+            <%
+                }
+            %>
+        </div>
+        <div class="element-padding">
+            <table>
+                <%
+                    if(saml2SSOAttributes != null){
+                        for (Map.Entry<String, String> entry:saml2SSOAttributes.entrySet()) {
+                %>
+                            <tr>
+                                <td><%=entry.getKey()%></td>
+                                <td><%=entry.getValue()%></td>
+                            </tr>
+                <%
+                    }
+                }
+                %>
+            </table>
+        </div>
+        <div class="element-padding">
+            <a href="logout?SAML2.HTTPBinding=HTTP-POST">Logout (HTTP Post)</a>
         </div>
     </div>
 </main>
