@@ -5,10 +5,8 @@
   Time: 21:26
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="org.wso2.carbon.identity.sso.agent.bean.LoggedInSessionBean" %>
-<%@ page import="org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig" %>
 <%@ page import="org.wso2.carbon.identity.sso.agent.util.SSOAgentConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -49,7 +47,6 @@
 <%
         return;
     }
-    SSOAgentConfig ssoAgentConfig = (SSOAgentConfig)getServletContext().getAttribute(SSOAgentConstants.CONFIG_BEAN_NAME);
     LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
     LoggedInSessionBean.AccessTokenResponseBean accessTokenResponseBean = null;
     
@@ -77,12 +74,18 @@
 %>
 <body>
 <main class="center-segment">
-    <%
-//    String userName = (String) request.getAttribute("username");
+    <div style="text-align: center">
+        <div class="element-padding">
+            <h1>Home Page!</h1>
+        </div>
+        <div class="element-padding">
+            <%
+                String userName = (String) request.getAttribute("nameID");
 //    String password = (String) request.getAttribute("password");
-    out.println("<br>User name: " + request.getRemoteUser() + "<br>");
-        out.println("<br>Password: " + "<br>");
-    %>
+//                out.println("<br>User name: " + userName + "<br>");
+            %>
+        </div>
+    </div>
 </main>
 </body>
 </html>
