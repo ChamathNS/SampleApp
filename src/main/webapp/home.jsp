@@ -102,7 +102,7 @@
             </table>
         </div>
         <div class="element-padding">
-            <a href="logout?SAML2.HTTPBinding=HTTP-POST">Logout (HTTP Post)</a>
+            <a href="logout?SAML2.HTTPBinding=HTTP-POST">Logout</a>
         </div>
     </div>
 </main>
