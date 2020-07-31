@@ -35,6 +35,11 @@
             <artifactId>org.wso2.carbon.identity.sso.agent</artifactId>
             <version>${sso.agent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.agent.sso.java</groupId>
+            <artifactId>org.wso2.carbon.identity.sso.tomcat.server</artifactId>
+            <version>${sso.agent.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
