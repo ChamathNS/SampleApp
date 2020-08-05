@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="java.util.Map" %>
-<%@ page import="org.wso2.carbon.identity.sso.agent.bean.LoggedInSessionBean" %>
-<%@ page import="org.wso2.carbon.identity.sso.agent.util.SSOAgentConstants" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.saml.bean.LoggedInSessionBean" %>
+<%@ page import="org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

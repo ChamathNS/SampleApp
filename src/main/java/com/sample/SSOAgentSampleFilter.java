@@ -2,8 +2,8 @@ package com.sample;
 
 import org.apache.axiom.om.util.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig;
-import org.wso2.carbon.identity.sso.agent.util.SSOAgentConstants;
+import org.wso2.carbon.identity.sso.agent.saml.bean.SSOAgentConfig;
+import org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentConstants;
 import org.wso2.carbon.identity.sso.tomcat.server.SAML2SSOAgentFilter;
 
 import java.io.IOException;

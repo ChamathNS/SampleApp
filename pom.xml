@@ -21,18 +21,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml-saml-api</artifactId>
-            <version>${opensaml3.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml-saml-impl</artifactId>
-            <version>${opensaml3.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.wso2.carbon.identity.agent.sso.java</groupId>
-            <artifactId>org.wso2.carbon.identity.sso.agent</artifactId>
+            <artifactId>org.wso2.carbon.identity.sso.agent.saml</artifactId>
             <version>${sso.agent.version}</version>
         </dependency>
         <dependency>
@@ -44,7 +34,6 @@
 
     <properties>
         <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
-        <opensaml3.version>3.3.1</opensaml3.version>
         <sso.agent.version>5.4.1-SNAPSHOT</sso.agent.version>
     </properties>
 </project>

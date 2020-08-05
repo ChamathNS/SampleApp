@@ -1,10 +1,10 @@
 package com.sample;
 
-import org.wso2.carbon.identity.sso.agent.bean.SSOAgentConfig;
-import org.wso2.carbon.identity.sso.agent.exception.SSOAgentException;
-import org.wso2.carbon.identity.sso.agent.security.SSOAgentX509Credential;
-import org.wso2.carbon.identity.sso.agent.security.SSOAgentX509KeyStoreCredential;
-import org.wso2.carbon.identity.sso.agent.util.SSOAgentConstants;
+import org.wso2.carbon.identity.sso.agent.saml.bean.SSOAgentConfig;
+import org.wso2.carbon.identity.sso.agent.saml.exception.SSOAgentException;
+import org.wso2.carbon.identity.sso.agent.saml.security.SSOAgentX509Credential;
+import org.wso2.carbon.identity.sso.agent.saml.security.SSOAgentX509KeyStoreCredential;
+import org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
