@@ -1,64 +1,108 @@
 package com.sample;
 
-import org.apache.axiom.om.util.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.opensaml.saml.saml2.core.LogoutResponse;
+import org.wso2.carbon.identity.sso.agent.saml.SAML2SSOManager;
 import org.wso2.carbon.identity.sso.agent.saml.bean.SSOAgentConfig;
+import org.wso2.carbon.identity.sso.agent.saml.exception.SSOAgentException;
 import org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentConstants;
-import org.wso2.carbon.identity.sso.tomcat.server.SAML2SSOAgentFilter;
+import org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentFilterUtils;
+import org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentRequestResolver;
+import org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentUtils;
 
 import java.io.IOException;
-import java.util.Properties;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class SSOAgentSampleFilter extends SAML2SSOAgentFilter {
+public class SSOAgentSampleFilter implements Filter {
 
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String CHARACTER_ENCODING = "UTF-8";
-    private static Properties properties;
+    protected FilterConfig filterConfig = null;
 
-    static{
-        properties = SampleContextEventListener.getProperties();
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+        this.filterConfig = filterConfig;
     }
 
-    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
-        String httpBinding = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
-        SSOAgentConfig config = (SSOAgentConfig)filterConfig.getServletContext().getAttribute(
-                SSOAgentConstants.CONFIG_BEAN_NAME);
-        config.getSAML2().setHttpBinding(httpBinding);
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (StringUtils.isNotEmpty(servletRequest.getParameter(USERNAME)) &&
-                StringUtils.isNotEmpty(servletRequest.getParameter(PASSWORD))) {
-            String authorization = servletRequest.getParameter(USERNAME) + ":" + servletRequest.getParameter(PASSWORD);
-            authorization = Base64.encode(authorization.getBytes(CHARACTER_ENCODING));
-            String htmlPayload = "<html>\n" +
-                    "<body>\n" +
-                    "<p>You are now redirected back to " + properties.getProperty("SAML2.IdPURL") + " \n" +
-                    "If the redirection fails, please click the post button.</p>\n" +
-                    "<form method='post' action='" +  properties.getProperty("SAML2.IdPURL") + "'>\n" +
-                    "<input type='hidden' name='sectoken' value='" + authorization + "'/>\n" +
-                    "<p>\n" +
-                    "<!--$saml_params-->\n" +
-                    "<button type='submit'>POST</button>\n" +
-                    "</p>\n" +
-                    "</form>\n" +
-                    "<script type='text/javascript'>\n" +
-                    "document.forms[0].submit();\n" +
-                    "</script>\n" +
-                    "</body>\n" +
-                    "</html>";
-            config.getSAML2().setPostBindingRequestHTMLPayload(htmlPayload);
-        } else {
-            config.getSAML2().setPostBindingRequestHTMLPayload(null);
+        SSOAgentConfig ssoAgentConfig = SSOAgentFilterUtils.getSSOAgentConfig(filterConfig);
+
+        SSOAgentRequestResolver resolver =
+                new SSOAgentRequestResolver(request, response, ssoAgentConfig);
+
+        if (resolver.isURLToSkip()) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
         }
-        servletRequest.setAttribute(SSOAgentConstants.CONFIG_BEAN_NAME,config);
-        super.doFilter(servletRequest, servletResponse, filterChain);
+
+        SAML2SSOManager samlSSOManager;
+
+        if (resolver.isSAML2SSOResponse()) {
+            samlSSOManager = new SAML2SSOManager(ssoAgentConfig);
+            try {
+                samlSSOManager.processResponse(request, response);
+            } catch (SSOAgentException e) {
+                handleException(request, e);
+            }
+        }
+        else if (resolver.isSLORequest()) {
+            samlSSOManager = new SAML2SSOManager(ssoAgentConfig);
+            LogoutResponse logoutResponse = samlSSOManager.doSLO(request);
+            String encodedRequestMessage = samlSSOManager.buildPostResponse(logoutResponse);
+            SSOAgentUtils.sendPostResponse(request, response, encodedRequestMessage);
+            return;
+        }
+        else if (resolver.isSAML2SSOURL()) {
+            samlSSOManager = new SAML2SSOManager(ssoAgentConfig);
+            if (resolver.isHttpPostBinding()) {
+                String htmlPayload = samlSSOManager.buildPostRequest(request, response, false);
+                SSOAgentUtils.sendPostResponse(request, response, htmlPayload);
+                return;
+            }
+            response.sendRedirect(samlSSOManager.buildRedirectRequest(request, false));
+            return;
+        }  else if (resolver.isSLOURL()) {
+            samlSSOManager = new SAML2SSOManager(ssoAgentConfig);
+            if (resolver.isHttpPostBinding()) {
+                boolean isPassiveAuth = ssoAgentConfig.getSAML2().isPassiveAuthn();
+                ssoAgentConfig.getSAML2().setPassiveAuthn(false);
+                String htmlPayload = samlSSOManager.buildPostRequest(request, response, true);
+                ssoAgentConfig.getSAML2().setPassiveAuthn(isPassiveAuth);
+                SSOAgentUtils.sendPostResponse(request, response, htmlPayload);
+            } else {
+                //if "SSOAgentConstants.HTTP_BINDING_PARAM" is not defined, default to redirect
+                boolean isPassiveAuth = ssoAgentConfig.getSAML2().isPassiveAuthn();
+                ssoAgentConfig.getSAML2().setPassiveAuthn(false);
+                String redirectUrl = samlSSOManager.buildRedirectRequest(request, true);
+                ssoAgentConfig.getSAML2().setPassiveAuthn(isPassiveAuth);
+                response.sendRedirect(redirectUrl);
+            }
+            return;
+        }
+        filterChain.doFilter(request, response);
+    }
+
+    public void destroy() {
+
+        return;
+    }
+
+    protected void handleException(HttpServletRequest request, SSOAgentException e)
+            throws SSOAgentException {
+
+        if (request.getSession(false) != null) {
+            request.getSession(false).removeAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
+        }
+        throw e;
     }
 }
