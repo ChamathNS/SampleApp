@@ -31,18 +31,20 @@
         <finalName>SampleApp</finalName>
     </build>
 
+    <repositories>
+        <repository>
+            <id>wso2.releases</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
+
     <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet.api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.agent.sso.java</groupId>
-            <artifactId>org.wso2.carbon.identity.sso.agent.saml</artifactId>
-            <version>${sso.agent.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.agent.sso.java</groupId>
             <artifactId>org.wso2.carbon.identity.sso.tomcat.server</artifactId>
