@@ -25,42 +25,36 @@
 
     <display-name>SampleApp</display-name>
 
-    <servlet>
-        <servlet-name>SampleServlet</servlet-name>
-        <servlet-class>com.sample.SampleServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SampleServlet</servlet-name>
-        <url-pattern>/samlsso</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SampleServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-
     <filter>
-        <filter-name>SSOAgentSampleFilter</filter-name>
-        <filter-class>com.sample.SSOAgentSampleFilter</filter-class>
+        <filter-name>SAML2SSOAgentFilter</filter-name>
+        <filter-class>org.wso2.carbon.identity.sso.tomcat.server.SAML2SSOAgentFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>SSOAgentSampleFilter</filter-name>
+        <filter-name>SAML2SSOAgentFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>SSOAgentSampleFilter</filter-name>
+        <filter-name>SAML2SSOAgentFilter</filter-name>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>SSOAgentSampleFilter</filter-name>
+        <filter-name>SAML2SSOAgentFilter</filter-name>
         <url-pattern>/samlsso</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>SSOAgentSampleFilter</filter-name>
+        <filter-name>SAML2SSOAgentFilter</filter-name>
         <url-pattern>/logout</url-pattern>
     </filter-mapping>
 
     <listener>
-        <listener-class>com.sample.SampleContextEventListener</listener-class>
+        <listener-class>org.wso2.carbon.identity.sso.tomcat.server.SSOAgentContextEventListener</listener-class>
     </listener>
+    <context-param>
+        <param-name>property-file</param-name>
+        <param-value>sampleApp.properties</param-value>
+    </context-param>
+    <context-param>
+        <param-name>certificate-file</param-name>
+        <param-value>wso2carbon.jks</param-value>
+    </context-param>
 </web-app>

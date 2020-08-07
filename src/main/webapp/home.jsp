@@ -60,7 +60,7 @@
         request.getSession().invalidate();
 %>
 <script type="text/javascript">
-    location.href = "index.html";
+    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
 </script>
 <%
         return;
@@ -74,7 +74,7 @@
         } else {
 %>
 <script type="text/javascript">
-    location.href = "index.html";
+    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
 </script>
 <%
         return;
@@ -82,7 +82,7 @@
 } else {
 %>
 <script type="text/javascript">
-    location.href = "index.html";
+    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
 </script>
 <%
         return;
@@ -126,3 +126,4 @@
 </main>
 </body>
 </html>
+
