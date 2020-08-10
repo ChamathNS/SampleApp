@@ -52,73 +52,73 @@
         }
     </style>
 </head>
-<%
-    String subjectId = null;
-    Map<String, String> saml2SSOAttributes = null;
-    if(request.getSession(false) != null &&
-            request.getSession(false).getAttribute(SSOAgentConstants.SESSION_BEAN_NAME) == null){
-        request.getSession().invalidate();
-%>
-<script type="text/javascript">
-    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
-</script>
-<%
-        return;
-    }
-    LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
-    
-    if(sessionBean != null){
-        if(sessionBean.getSAML2SSO() != null) {
-            subjectId = sessionBean.getSAML2SSO().getSubjectId();
-            saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();
-        } else {
-%>
-<script type="text/javascript">
-    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
-</script>
-<%
-        return;
-    }
-} else {
-%>
-<script type="text/javascript">
-    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
-</script>
-<%
-        return;
-    }
-%>
+<%--<%--%>
+<%--    String subjectId = null;--%>
+<%--    Map<String, String> saml2SSOAttributes = null;--%>
+<%--    if(request.getSession(false) != null &&--%>
+<%--            request.getSession(false).getAttribute(SSOAgentConstants.SESSION_BEAN_NAME) == null){--%>
+<%--        request.getSession().invalidate();--%>
+<%--%>--%>
+<%--<script type="text/javascript">--%>
+<%--    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";--%>
+<%--</script>--%>
+<%--<%--%>
+<%--        return;--%>
+<%--    }--%>
+<%--    LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);--%>
+<%--    --%>
+<%--    if(sessionBean != null){--%>
+<%--        if(sessionBean.getSAML2SSO() != null) {--%>
+<%--            subjectId = sessionBean.getSAML2SSO().getSubjectId();--%>
+<%--            saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();--%>
+<%--        } else {--%>
+<%--%>--%>
+<%--<script type="text/javascript">--%>
+<%--    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";--%>
+<%--</script>--%>
+<%--<%--%>
+<%--        return;--%>
+<%--    }--%>
+<%--} else {--%>
+<%--%>--%>
+<%--<script type="text/javascript">--%>
+<%--    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";--%>
+<%--</script>--%>
+<%--<%--%>
+<%--        return;--%>
+<%--    }--%>
+<%--%>--%>
 <body>
 <main class="center-segment">
     <div style="text-align: center">
         <div class="element-padding">
             <h1>Home Page!</h1>
         </div>
-        <div class="element-padding">
-            <%
-                if(subjectId != null){
-            %>
-            <p> You are logged in as <%=subjectId%></p>
-            <%
-                }
-            %>
-        </div>
-        <div class="element-padding">
-            <table>
-                <%
-                    if(saml2SSOAttributes != null){
-                        for (Map.Entry<String, String> entry:saml2SSOAttributes.entrySet()) {
-                %>
-                            <tr>
-                                <td><%=entry.getKey()%></td>
-                                <td><%=entry.getValue()%></td>
-                            </tr>
-                <%
-                    }
-                }
-                %>
-            </table>
-        </div>
+<%--        <div class="element-padding">--%>
+<%--            <%--%>
+<%--                if(subjectId != null){--%>
+<%--            %>--%>
+<%--            <p> You are logged in as <%=subjectId%></p>--%>
+<%--            <%--%>
+<%--                }--%>
+<%--            %>--%>
+<%--        </div>--%>
+<%--        <div class="element-padding">--%>
+<%--            <table>--%>
+<%--                <%--%>
+<%--                    if(saml2SSOAttributes != null){--%>
+<%--                        for (Map.Entry<String, String> entry:saml2SSOAttributes.entrySet()) {--%>
+<%--                %>--%>
+<%--                            <tr>--%>
+<%--                                <td><%=entry.getKey()%></td>--%>
+<%--                                <td><%=entry.getValue()%></td>--%>
+<%--                            </tr>--%>
+<%--                <%--%>
+<%--                    }--%>
+<%--                }--%>
+<%--                %>--%>
+<%--            </table>--%>
+<%--        </div>--%>
         <div class="element-padding">
             <a href="logout?SAML2.HTTPBinding=HTTP-POST">Logout</a>
         </div>
