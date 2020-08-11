@@ -25,18 +25,22 @@
         html, body {
             height: 100%;
         }
+
         body {
             flex-direction: column;
             display: flex;
         }
+
         main {
             flex-shrink: 0;
         }
+
         main.center-segment {
             margin: auto;
             display: flex;
             align-items: center;
         }
+
         .element-padding {
             margin: auto;
             padding: 15px;
@@ -44,17 +48,17 @@
     </style>
 </head>
 <body>
-    <main class="center-segment">
-        <div style="text-align: center;">
-            <h1>
-                Log In Page!
-            </h1>
-            <form method="post" action="home.jsp">
-                <div class="element-padding">
-                    <input type="submit" value="log in" style="height: 30px; width: 60px">
-                </div>
-            </form>
-        </div>
-    </main>
+<main class="center-segment">
+    <div style="text-align: center;">
+        <h1>
+            Log In Page!
+        </h1>
+        <form action="home.jsp" method="post">
+            <div class="element-padding">
+                <input style="height: 30px; width: 60px" type="submit" value="log in">
+            </div>
+        </form>
+    </div>
+</main>
 </body>
 </html>

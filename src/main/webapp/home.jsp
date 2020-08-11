@@ -23,9 +23,9 @@
   Time: 21:26
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="java.util.Map" %>
 <%@ page import="org.wso2.carbon.identity.sso.agent.saml.bean.LoggedInSessionBean" %>
 <%@ page import="org.wso2.carbon.identity.sso.agent.saml.util.SSOAgentConstants" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -34,18 +34,22 @@
         html, body {
             height: 100%;
         }
+        
         body {
             flex-direction: column;
             display: flex;
         }
+        
         main {
             flex-shrink: 0;
         }
+        
         main.center-segment {
             margin: auto;
             display: flex;
             align-items: center;
         }
+        
         .element-padding {
             margin: auto;
             padding: 15px;
@@ -53,7 +57,7 @@
     </style>
 </head>
 <%
-    LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
+    LoggedInSessionBean sessionBean = (LoggedInSessionBean) session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
     String subjectId = sessionBean.getSAML2SSO().getSubjectId();
     Map<String, String> saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();
 %>
@@ -65,9 +69,10 @@
         </div>
         <div class="element-padding">
             <%
-                if(subjectId != null){
+                if (subjectId != null) {
             %>
-            <p> You are logged in as <%=subjectId%></p>
+            <p> You are logged in as <%=subjectId%>
+            </p>
             <%
                 }
             %>
@@ -75,16 +80,18 @@
         <div class="element-padding">
             <table>
                 <%
-                    if(saml2SSOAttributes != null){
-                        for (Map.Entry<String, String> entry:saml2SSOAttributes.entrySet()) {
+                    if (saml2SSOAttributes != null) {
+                        for (Map.Entry<String, String> entry : saml2SSOAttributes.entrySet()) {
                 %>
-                            <tr>
-                                <td><%=entry.getKey()%></td>
-                                <td><%=entry.getValue()%></td>
-                            </tr>
+                <tr>
+                    <td><%=entry.getKey()%>
+                    </td>
+                    <td><%=entry.getValue()%>
+                    </td>
+                </tr>
                 <%
+                        }
                     }
-                }
                 %>
             </table>
         </div>
@@ -95,4 +102,3 @@
 </main>
 </body>
 </html>
-
