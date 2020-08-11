@@ -54,6 +54,6 @@
 
     <properties>
         <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
-        <sso.agent.version>5.4.1-SNAPSHOT</sso.agent.version>
+        <sso.agent.version>5.5.0-SNAPSHOT</sso.agent.version>
     </properties>
 </project>
