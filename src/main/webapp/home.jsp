@@ -53,40 +53,9 @@
     </style>
 </head>
 <%
-    String subjectId = null;
-    Map<String, String> saml2SSOAttributes = null;
-    if(request.getSession(false) != null &&
-            request.getSession(false).getAttribute(SSOAgentConstants.SESSION_BEAN_NAME) == null){
-        request.getSession().invalidate();
-%>
-<script type="text/javascript">
-    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
-</script>
-<%
-        return;
-    }
     LoggedInSessionBean sessionBean = (LoggedInSessionBean)session.getAttribute(SSOAgentConstants.SESSION_BEAN_NAME);
-    
-    if(sessionBean != null){
-        if(sessionBean.getSAML2SSO() != null) {
-            subjectId = sessionBean.getSAML2SSO().getSubjectId();
-            saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();
-        } else {
-%>
-<script type="text/javascript">
-    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
-</script>
-<%
-        return;
-    }
-} else {
-%>
-<script type="text/javascript">
-    location.href = "samlsso?SAML2.HTTPBinding=HTTP-POST";
-</script>
-<%
-        return;
-    }
+    String subjectId = sessionBean.getSAML2SSO().getSubjectId();
+    Map<String, String> saml2SSOAttributes = sessionBean.getSAML2SSO().getSubjectAttributes();
 %>
 <body>
 <main class="center-segment">
